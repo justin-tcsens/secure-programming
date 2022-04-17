@@ -6,6 +6,7 @@ import my.com.tcsens.vehiclemanagement.dao.VehicleDao;
 import my.com.tcsens.vehiclemanagement.dto.Summon;
 import my.com.tcsens.vehiclemanagement.dto.Vehicle;
 import my.com.tcsens.vehiclemanagement.model.SummonModel;
+import my.com.tcsens.vehiclemanagement.repository.SummonRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,20 +18,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class SummonService {
-    private final SummonDao summonDao;
-    private final VehicleService vehicleService;
+    private final SummonRepository summonRepository;
 
     public SummonService(
-            SummonDao summonDao,
-            VehicleService vehicleService) {
-        this.summonDao = summonDao;
-        this.vehicleService = vehicleService;
+            SummonRepository summonRepository) {
+        this.summonRepository = summonRepository;
     }
 
     public List<Summon> getSummonByCarPlateNumber(String carPlateNumber) {
-        val vehicle = vehicleService.getVehicles(carPlateNumber).stream().findFirst().orElse(new Vehicle().id(0L));
 
-        return summonDao.getSummonByCarPlateNumber(vehicle.getId().intValue())
+        return summonRepository.getSummonByCarPlateNumber(carPlateNumber)
                 .stream()
                 .filter(Objects::nonNull)
                 .map(this::mapDTO)
