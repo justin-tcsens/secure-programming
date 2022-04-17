@@ -32,7 +32,6 @@ public class UserController implements UserApi {
     @PreAuthorize("hasAnyRole('ADMIN','SYS_ADMIN')")
     public ResponseEntity<User> _getUserById(String userId) {
         return ResponseEntity.ok(userService.getUserByLoginId(userId));
-
     }
 
     @Override

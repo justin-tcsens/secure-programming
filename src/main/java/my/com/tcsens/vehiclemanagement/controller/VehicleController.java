@@ -5,10 +5,12 @@ import my.com.tcsens.vehiclemanagement.api.VehicleApi;
 import my.com.tcsens.vehiclemanagement.dto.Vehicle;
 import my.com.tcsens.vehiclemanagement.model.VehicleModel;
 import my.com.tcsens.vehiclemanagement.service.VehicleService;
+import my.com.tcsens.vehiclemanagement.util.InputSanitizer;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
@@ -20,19 +22,25 @@ import java.util.List;
 @Controller
 public class VehicleController implements VehicleApi {
     private final VehicleService vehicleService;
+    private final InputSanitizer inputSanitizer;
 
-    public VehicleController(VehicleService vehicleService) {
+    public VehicleController(
+            VehicleService vehicleService,
+            InputSanitizer inputSanitizer) {
         this.vehicleService = vehicleService;
+        this.inputSanitizer = inputSanitizer;
     }
 
     @Override
-    public ResponseEntity<List<Vehicle>> getVehicles(Integer pageNo, Integer pageSize, String carPlateNumber) {
+    @PreAuthorize("hasAnyRole('ADMIN','SYS_ADMIN')")
+    public ResponseEntity<List<Vehicle>> _getVehicles(Integer pageNo, Integer pageSize, String carPlateNumber) {
         return ResponseEntity.ok(vehicleService.getVehicles(carPlateNumber));
     }
 
     @Override
     public ResponseEntity<org.springframework.core.io.Resource> getVehicleImageByFileName(String fileName) {
 
+        inputSanitizer.sanitizeDirectoryTraveller(fileName);
         try {
             val resource = getResource(fileName);
             return ResponseEntity.ok().headers(getResourceHttpHeader(fileName))

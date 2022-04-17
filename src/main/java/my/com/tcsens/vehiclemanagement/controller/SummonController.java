@@ -4,6 +4,7 @@ import my.com.tcsens.vehiclemanagement.api.SummonApi;
 import my.com.tcsens.vehiclemanagement.dto.Summon;
 import my.com.tcsens.vehiclemanagement.service.SummonService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
