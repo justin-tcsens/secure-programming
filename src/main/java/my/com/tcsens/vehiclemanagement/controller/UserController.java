@@ -7,6 +7,8 @@ import my.com.tcsens.vehiclemanagement.util.TokenSecUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+
 @Controller
 public class UserController implements UserApi {
     private final TokenSecUtil tokenSecUtil;
@@ -28,5 +30,10 @@ public class UserController implements UserApi {
     public ResponseEntity<User> getUserById(String userId) {
         return ResponseEntity.ok(userService.getUserByLoginId(userId));
 
+    }
+
+    @Override
+    public ResponseEntity<List<User>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 }
