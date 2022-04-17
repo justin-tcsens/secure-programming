@@ -21,7 +21,7 @@ insert into user_profile (login_id, user_name, hash_pwd) values
 ('shamir', 'Shamir Baharuddin','$2a$10$7B2Y1u3sQeG3.IqKy1pFt.ykvxBnZ0LT8JbmuVoZSdApA5Vzvmixy');
 
 insert into user_role(user_profile_id, role_name) values
-((select id from user_profile where login_id = 'james_ma'), 'ROLE_SYS_ADMIN'),
-((select id from user_profile where login_id = 'norhashima'), 'ROLE_USER'),
-((select id from user_profile where login_id = 'noraini'), 'ROLE_SUPERVISOR'),
-((select id from user_profile where login_id = 'shamir'), 'ROLE_USER');
+((select id from user_profile where login_id = 'james_ma'), 'SYS_ADMIN'),
+((select id from user_profile where login_id = 'norhashima'), 'USER'),
+((select id from user_profile where login_id = 'noraini'), 'ADMIN'),
+((select id from user_profile where login_id = 'shamir'), 'USER');
