@@ -94,6 +94,7 @@ paths:
       summary: Get list of user profiles
       description: Get list of user profiles
       operationId: getUsers
+      x-roles: ["ROLE_ADMIN"]
       responses:
         '200':
           description: List of user profiles
@@ -140,6 +141,7 @@ paths:
                 $ref: '#/components/schemas/AuthToken'
 
 components:
+
   parameters:
     pageNoParam:
       name: pageNo

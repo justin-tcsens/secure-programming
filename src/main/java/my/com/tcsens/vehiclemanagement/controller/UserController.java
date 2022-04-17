@@ -5,6 +5,8 @@ import my.com.tcsens.vehiclemanagement.dto.User;
 import my.com.tcsens.vehiclemanagement.service.UserService;
 import my.com.tcsens.vehiclemanagement.util.TokenSecUtil;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -22,18 +24,21 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<String> getUserThumbprint(String userId) {
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN','SYS_ADMIN')")
+    public ResponseEntity<String> _getUserThumbprint(String userId) {
         return ResponseEntity.ok(tokenSecUtil.verifyKey(userId));
     }
 
     @Override
-    public ResponseEntity<User> getUserById(String userId) {
+    @PreAuthorize("hasAnyRole('ADMIN','SYS_ADMIN')")
+    public ResponseEntity<User> _getUserById(String userId) {
         return ResponseEntity.ok(userService.getUserByLoginId(userId));
 
     }
 
     @Override
-    public ResponseEntity<List<User>> getUsers() {
+    @PreAuthorize("hasAnyRole('SYS_ADMIN')")
+    public ResponseEntity<List<User>> _getUsers() {
         return ResponseEntity.ok(userService.getUsers());
     }
 }
