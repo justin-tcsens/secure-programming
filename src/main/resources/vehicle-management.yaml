@@ -70,6 +70,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Summons'
 
+
   /user/token:
     get: 
       tags:
@@ -86,6 +87,57 @@ paths:
             text/plain:
               schema:
                 type: string
+  /user:
+    get:
+      tags:
+        - 'Users'
+      summary: Get list of user profiles
+      description: Get list of user profiles
+      operationId: getUsers
+      responses:
+        '200':
+          description: List of user profiles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+
+  /user/{userId}:
+    get:
+      tags:
+        - 'Users'
+      summary: Get user profile by Id
+      description: Get user profile by Id
+      operationId: getUserById
+      parameters:
+        - $ref: '#/components/parameters/userIdPath'
+      responses:
+        '200':
+          description: User profile for the given Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /auth:
+    post: 
+      tags:
+        - 'Authentication'
+      summary: Authenticate user credential
+      description: Authenticate user credential
+      operationId: authenticateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredential'
+      responses:
+        '200':
+          description: JWT access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
 
 components:
   parameters:
@@ -121,7 +173,30 @@ components:
       schema:
         type: string
 
+    userIdPath:
+      name: userId
+      in: path
+      description: User Id
+      required: true
+      schema:
+        type: string
+
   schemas:
+
+    AuthToken:
+      type: object
+      properties:
+        token:
+          type: string
+
+    LoginCredential:
+      type: object
+      properties:
+        loginId:
+          type: string
+        password:
+          type: string
+
     PlatformError:
       type: object
       properties:
@@ -200,6 +275,35 @@ components:
           minLength: 1
           maxLength: 50
           
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        loginId:
+          type: string
+        password:
+          type: string
+        roles:
+          $ref: '#/components/schemas/Roles'
+
+    Roles:
+      type: array
+      items:
+        $ref: '#/components/schemas/Role'
+    
+    Role:
+      type: object
+      properties:
+        roleName:
+          type: string
+
     Summons:
       type: array
       items:
