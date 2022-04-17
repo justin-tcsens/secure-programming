@@ -24,7 +24,6 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN','SYS_ADMIN')")
     public ResponseEntity<String> _getUserThumbprint(String userId) {
         return ResponseEntity.ok(tokenSecUtil.verifyKey(userId));
     }
