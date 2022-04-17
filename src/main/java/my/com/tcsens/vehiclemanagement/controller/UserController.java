@@ -16,7 +16,6 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<String> getUserThumbprint(String userId) {
-        val rrr = tokenSecUtil.verifyKey(userId);
-        return ResponseEntity.ok(rrr);
+        return ResponseEntity.ok(tokenSecUtil.verifyKey(userId));
     }
 }
