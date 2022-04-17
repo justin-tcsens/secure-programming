@@ -14,14 +14,18 @@ import static io.netty.util.internal.StringUtil.NEWLINE;
 
 @Component
 public class TokenSecUtil {
-
     private final String TOKENSEC_EXE = "ClientAuthToken.exe ";
     private final String TOKENSEC_PATH = "TokenSec/";
+
+    private final InputSanitizer inputSanitizer;
+
+    public TokenSecUtil(InputSanitizer inputSanitizer) { this.inputSanitizer = inputSanitizer; }
 
     public String verifyKey(String dataFile) {
         var clientKey =new StringBuilder();
 
         try {
+            inputSanitizer.sanitizeCommandExecute(dataFile);
             String[] commands = {"powershell.exe", TOKENSEC_PATH + TOKENSEC_EXE + TOKENSEC_PATH + dataFile};
             val pb = new ProcessBuilder(commands).redirectErrorStream(true);
             val process = pb.start();
