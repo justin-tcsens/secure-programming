@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { Exception.class })
+//    @ExceptionHandler(value = { Exception.class })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public PlatformError handlerGeneralException(Exception exception) {
