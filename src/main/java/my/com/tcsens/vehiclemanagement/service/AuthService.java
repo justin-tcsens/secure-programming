@@ -28,8 +28,8 @@ public class AuthService {
 
     public AuthToken authenticateUser(LoginCredential loginCredential) {
         val authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginCredential.getLoginId(),
-                loginCredential.getPassword()
+                aesUtil.decrypt(loginCredential.getLoginId()),
+                aesUtil.decrypt(loginCredential.getPassword())
         ));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
