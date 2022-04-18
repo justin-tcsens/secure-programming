@@ -28,7 +28,7 @@ public class AuthService {
 
     public AuthToken authenticateUser(LoginCredential loginCredential) {
         val authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                aesUtil.decrypt(loginCredential.getLoginId()),
+                loginCredential.getLoginId(),
                 loginCredential.getPassword()
         ));
 
